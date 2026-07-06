@@ -35,7 +35,7 @@ std::pair<Schema, std::size_t> Deserializer::readManifest(std::istream& is) {
 
     Schema schema;
     schema.reserve(columns);
-    for (std::size_t i = 0; i < rowCount; ++i) {
+    for (std::size_t i = 0; i < columns; ++i) {
         std::string name, type;
         is >> name >> break1 >> type >> break2;
 

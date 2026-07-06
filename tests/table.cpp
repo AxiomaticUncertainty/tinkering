@@ -52,8 +52,15 @@ TEST(Table, DuplicateColumnName) {
     ASSERT_THROW(Table(s, c), std::invalid_argument);
 }
 
+TEST(Table, SchemaColumnMismatch) {
+    Schema s = {{"Foo", ColumnType::INT}};
+    Columns c = {UnderlyingColumn<double>{1.0}};
+
+    ASSERT_THROW(Table(s, c), std::invalid_argument);
+}
+
 TEST(Table, RowCountMismatch) {
-    Schema s = {{"Foo", ColumnType::INT}, {"Foo", ColumnType::STRING}};
+    Schema s = {{"Foo", ColumnType::INT}, {"Bar", ColumnType::STRING}};
     Columns c = {UnderlyingColumn<int>({1, 2, 3}), UnderlyingColumn<std::string>({"tomato", "potato"})};
 
     ASSERT_THROW(Table(s, c), std::invalid_argument);
