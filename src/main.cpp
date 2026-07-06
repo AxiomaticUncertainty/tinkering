@@ -3,19 +3,11 @@
 #include <sstream>
 
 #include <reader.hpp>
-#include <serial.hpp>
 #include <table.hpp>
 #include <writer.hpp>
 
 class SampleDriver : public Writer, public Reader {
 public:
-    // ~SampleDriver() {
-    //     std::cout << "Manifest:\n" << m_manifest.str() << "\n";
-    //     for (const auto& [name, data] : m_columns) {
-    //         std::cout << name << ":\n" << data.str() << "\n";
-    //     }
-    // }
-
     virtual std::ostream& writeManifest() {
         return m_manifest;
     }

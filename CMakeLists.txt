@@ -14,7 +14,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 #
 add_library(lib
     src/reader.cpp
-    src/serial.cpp
     src/table.cpp
     src/writer.cpp
 )
