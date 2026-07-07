@@ -53,6 +53,10 @@ Column constructColumn(ColumnType type) {
     }
 }
 
+bool ColumnDefinition::operator==(const ColumnDefinition& other) const {
+    return name == other.name && type == other.type;
+}
+
 Table::Table(Schema schema, Columns columns) : m_schema(std::move(schema)), m_columns(std::move(columns)) {
     ensureValid();
 }
@@ -79,6 +83,10 @@ void Table::ensureValid() {
             throw std::invalid_argument("Invalid table: row counts don't match!");
         }
     }
+}
+
+bool Table::operator==(const Table& other) const {
+    return m_schema == other.m_schema && m_columns == other.m_columns;
 }
 
 const Schema& Table::schema() const {

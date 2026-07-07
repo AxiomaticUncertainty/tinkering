@@ -123,6 +123,8 @@ Column constructColumn(ColumnType type);
 struct ColumnDefinition {
     std::string name;
     ColumnType type;
+
+    bool operator==(const ColumnDefinition& other) const;
 };
 
 using Schema = std::vector<ColumnDefinition>;
@@ -131,6 +133,8 @@ class Table {
 public:
     Table() = default;
     Table(Schema schema, Columns columns);
+
+    bool operator==(const Table& other) const;
 
     const Schema& schema() const;
     std::size_t rows() const;
