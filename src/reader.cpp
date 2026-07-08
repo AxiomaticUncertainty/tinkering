@@ -26,7 +26,7 @@ std::pair<Schema, std::size_t> Deserializer::readManifest(std::istream& is) {
     is >> std::noskipws;
 
     std::size_t rowCount, columns;
-    char break1, break2, break3;
+    char break1, break2;
     is >> rowCount >> break1 >> columns >> break2;
 
     if (break1 != '\n' || break2 != '\n') {
