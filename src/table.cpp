@@ -123,7 +123,7 @@ std::ostream& operator<<(std::ostream& os, const Table& table) {
     for (std::size_t col = 0; col < table.m_schema.size(); ++col) {
         if (col)
             os << " | ";
-        os << std::left << std::setw(widths[col]) << table.m_schema[col].name;
+        os << std::left << std::setw(static_cast<int>(widths[col])) << table.m_schema[col].name;
     }
     os << '\n';
 
@@ -142,7 +142,7 @@ std::ostream& operator<<(std::ostream& os, const Table& table) {
                 os << " | ";
 
             std::visit([&](const auto& column) {
-                os << std::left << std::setw(widths[col]) << column[row];
+                os << std::left << std::setw(static_cast<int>(widths[col])) << column[row];
             }, table.m_columns[col]);
         }
         os << '\n';

@@ -23,6 +23,8 @@ target_compile_options(project_warnings INTERFACE
     -Wextra
     -Wpedantic
     -Wshadow
+    -Wconversion
+    -Wsign-conversion
     $<$<BOOL:${ENABLE_WERROR}>:-Werror>
 )
 
