@@ -101,34 +101,42 @@ std::size_t Table::rows() const {
     return rows(m_columns[0]);
 }
 
+const Column& Table::column(const std::size_t index) const {
+    return m_columns.at(index);
+}
+
+const Column& Table::column(const std::string& name) const {
+    return m_columns.at(m_columnIndices.at(name));
+}
+
 std::ostream& operator<<(std::ostream& os, const Table& table) {
-    std::vector<std::size_t> widths(table.m_schema.size());
+    std::vector<std::size_t> widths(table.schema().size());
 
     // Start with header widths.
-    for (std::size_t col = 0; col < table.m_schema.size(); ++col)
-        widths[col] = table.m_schema[col].name.size();
+    for (std::size_t col = 0; col < table.schema().size(); ++col)
+        widths[col] = table.schema()[col].name.size();
 
     // Expand widths based on cell contents.
-    for (std::size_t col = 0; col < table.m_columns.size(); ++col) {
+    for (std::size_t col = 0; col < table.schema().size(); ++col) {
         std::visit([&](const auto& column) {
             for (const auto& value : column) {
                 std::ostringstream ss;
                 ss << value;
                 widths[col] = std::max(widths[col], ss.str().size());
             }
-        }, table.m_columns[col]);
+        }, table.column(col));
     }
 
     // Header.
-    for (std::size_t col = 0; col < table.m_schema.size(); ++col) {
+    for (std::size_t col = 0; col < table.schema().size(); ++col) {
         if (col)
             os << " | ";
-        os << std::left << std::setw(static_cast<int>(widths[col])) << table.m_schema[col].name;
+        os << std::left << std::setw(static_cast<int>(widths[col])) << table.schema()[col].name;
     }
     os << '\n';
 
     // Separator.
-    for (std::size_t col = 0; col < table.m_schema.size(); ++col) {
+    for (std::size_t col = 0; col < table.schema().size(); ++col) {
         if (col)
             os << "-+-";
         os << std::string(widths[col], '-');
@@ -137,13 +145,13 @@ std::ostream& operator<<(std::ostream& os, const Table& table) {
 
     // Rows.
     for (std::size_t row = 0; row < table.rows(); ++row) {
-        for (std::size_t col = 0; col < table.m_columns.size(); ++col) {
+        for (std::size_t col = 0; col < table.schema().size(); ++col) {
             if (col)
                 os << " | ";
 
             std::visit([&](const auto& column) {
                 os << std::left << std::setw(static_cast<int>(widths[col])) << column[row];
-            }, table.m_columns[col]);
+            }, table.column(col));
         }
         os << '\n';
     }

@@ -8,9 +8,9 @@ Serializer::Serializer(Writer& writer) : m_writer(writer) {}
 void Serializer::write(const Table& table) {
     auto& manifestDestination = m_writer.writeManifest();
     writeManifest(manifestDestination, table);
-    for (std::size_t i = 0; i < table.m_schema.size(); ++i) {
-        auto& columnDestination = m_writer.writeColumn(table.m_schema[i].name);
-        std::visit(ColumnWriter(columnDestination), table.m_columns[i]);
+    for (std::size_t i = 0; i < table.schema().size(); ++i) {
+        auto& columnDestination = m_writer.writeColumn(table.schema()[i].name);
+        std::visit(ColumnWriter(columnDestination), table.column(i));
     }
 }
 

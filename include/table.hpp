@@ -138,6 +138,8 @@ public:
 
     const Schema& schema() const;
     std::size_t rows() const;
+    const Column& column(const std::size_t index) const;
+    const Column& column(const std::string& name) const;
 
 private:
     Schema m_schema;
@@ -146,11 +148,6 @@ private:
 
     void ensureValid();
     std::size_t rows(const auto& column) const;
-
-    friend std::ostream& operator<<(std::ostream&, const Table&);
-    friend std::ostream& serialize(std::ostream& os, const Table& table);
-    friend std::istream& deserialize(std::istream& is, Table& table);
-    friend Serializer;
 };
 
 std::size_t Table::rows(const auto& column) const {
